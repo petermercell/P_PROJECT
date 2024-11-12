@@ -1,0 +1,1727 @@
+#! /Applications/Nuke15.1v3/Nuke15.1v3.app/Contents/MacOS/libnuke-15.1.3.dylib -nx
+version 15.1 v3
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="0" y="25" w="1440" h="796" maximized="1" screen="0">
+        <splitter orientation="1">
+            <split size="40"/>
+            <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                <page id="Toolbar.1"/>
+            </dock>
+            <split size="777" stretch="1"/>
+            <splitter orientation="2">
+                <split size="456"/>
+                <dock id="" activePageId="Viewer.1" focus="true">
+                    <page id="Viewer.1"/>
+                </dock>
+                <split size="320"/>
+                <dock id="" activePageId="DAG.1">
+                    <page id="DAG.1"/>
+                    <page id="Curve Editor.1"/>
+                    <page id="DopeSheet.1"/>
+                </dock>
+            </splitter>
+            <split size="615"/>
+            <dock id="" activePageId="Properties.1">
+                <page id="Properties.1"/>
+                <page id="uk.co.thefoundry.backgroundrenderview.1"/>
+                <page id="Scenegraph.1"/>
+            </dock>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name /Users/g/Desktop/test_projection_v003.nk
+ frame 95
+ format "2048 1556 0 0 2048 1556 1 2K_Super_35(full-ap)"
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+ colorManagement OCIO
+ OCIO_config custom
+ customOCIOConfigPath /Users/g/.nuke/color/OCIOConfigs/configs/aces_1.2/config.ocio
+ defaultViewerLUT "OCIO LUTs"
+ workingSpaceLUT scene_linear
+ monitorLut "sRGB (ACES)"
+ monitorOutLUT "Rec.709 (ACES)"
+ int8Lut matte_paint
+ int16Lut texture_paint
+ logLut compositing_log
+ floatLut scene_linear
+}
+StickyNote {
+ inputs 0
+ name StickyNote4
+ label 1-100
+ note_font_size 30
+ xpos -557
+ ypos -1337
+}
+Camera2 {
+ inputs 0
+ translate {{curve x1 -3.61574173 x100 4.021763802} {curve x1 1.328431845 x100 0.9841157794} {curve x1 4.694727898 x100 4.483808994}}
+ rotate {{curve x1 -6.277982463 x100 -3.207973581} {curve x1 -22.60000996 x100 36.77119766} {curve x1 0 x100 -5.399300824}}
+ focal 16
+ vaperture 13.824
+ name Camera9
+ xpos -754
+ ypos -907
+}
+set N2784b800 [stack 0]
+Dot {
+ name Dot7
+ xpos -730
+ ypos -542
+}
+push $N2784b800
+CheckerBoard2 {
+ inputs 0
+ centerlinewidth 0
+ name CheckerBoard6
+ xpos -553
+ ypos -1248
+}
+set N2784be00 [stack 0]
+Cube {
+ uniform_scale 10
+ name Cube4
+ xpos -406
+ ypos -1139
+}
+push $N2784be00
+Sphere {
+ rows 100
+ columns 100
+ translate {0 0 -3.579999924}
+ uniform_scale 2
+ name Sphere4
+ xpos -553
+ ypos -1133
+}
+Scene {
+ inputs 2
+ name Scene4
+ xpos -543
+ ypos -1052
+}
+push 0
+add_layer {P P.x P.y P.z P.red P.green P.blue P.alpha P.R P.G P.B N.red N.green N.blue pw.g pw.b P.X P.Y P.Z pw.alpha pw.r N.blue P.other}
+add_layer {N N.x N.y N.z N.red N.green N.blue N.alpha N.X N.Y N.Z}
+ScanlineRender {
+ inputs 3
+ conservative_shader_sampling false
+ output_shader_vectors true
+ P_channel P
+ N_channel N
+ name ScanlineRender4
+ xpos -553
+ ypos -886
+}
+set N27910000 [stack 0]
+Dot {
+ name Dot6
+ xpos -519
+ ypos -847
+}
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 P
+ fromInput2 {{0} B}
+ mappings "4 P.red 0 3 rgba.alpha 0 3 P.x 0 0 rgba.red 0 0 P.y 0 1 rgba.green 0 1 P.z 0 2 rgba.blue 0 2"
+ name Shuffle6
+ xpos -553
+ ypos -811
+}
+Group {
+ inputs 2
+ name P_PROJECT_PM
+ xpos -554
+ ypos -545
+ addUserKnob {20 User l P_PROJECT_PM}
+ addUserKnob {26 ""}
+ addUserKnob {41 referenceframe l "REF FRAME" T CTRL.referenceframe}
+ addUserKnob {26 _2 l "" -STARTLINE T "Output is STMap"}
+ addUserKnob {26 ""}
+ addUserKnob {26 _1 l "" +STARTLINE T "P_PROJECT_PM by Peter Mercell inspired by Ivan Busquets & Pedro Andrade aka COMP LAIR"}
+}
+ Expression {
+  inputs 0
+  expr0 (x+0.5)/width
+  expr1 (y+0.5)/height
+  name PURE
+  xpos -64
+  ypos -139
+ }
+ Camera3 {
+  inputs 0
+  translate {{"\[topnode input1].translate(CTRL.referenceframe)"} {"\[topnode input1].translate(CTRL.referenceframe)"} {"\[topnode input1].translate(CTRL.referenceframe)"}}
+  rotate {{"\[topnode input1].rotate(CTRL.referenceframe)"} {"\[topnode input1].rotate(CTRL.referenceframe)"} {"\[topnode input1].rotate(CTRL.referenceframe)"}}
+  scaling {{"\[topnode input1].scaling(CTRL.referenceframe)"} {"\[topnode input1].scaling(CTRL.referenceframe)"} {"\[topnode input1].scaling(CTRL.referenceframe)"}}
+  uniform_scale {{"\[topnode input1].uniform_scale(CTRL.referenceframe)"}}
+  skew {{"\[topnode input1].skew(CTRL.referenceframe)"} {"\[topnode input1].skew(CTRL.referenceframe)"} {"\[topnode input1].skew(CTRL.referenceframe)"}}
+  pivot_translate {{"\[topnode input1].pivot_translate(CTRL.referenceframe)"} {"\[topnode input1].pivot_translate(CTRL.referenceframe)"} {"\[topnode input1].pivot_translate(CTRL.referenceframe)"}}
+  pivot_rotate {{"\[topnode input1].pivot_rotate(CTRL.referenceframe)"} {"\[topnode input1].pivot_rotate(CTRL.referenceframe)"} {"\[topnode input1].pivot_rotate(CTRL.referenceframe)"}}
+  focal {{"\[topnode input1].focal(CTRL.referenceframe)"}}
+  haperture {{"\[topnode input1].haperture(CTRL.referenceframe)"}}
+  vaperture {{"\[topnode input1].vaperture(CTRL.referenceframe)"}}
+  near {{"\[topnode input1].near(CTRL.referenceframe)"}}
+  far {{"\[topnode input1].far(CTRL.referenceframe)"}}
+  win_translate {{"\[topnode input1].win_translate(CTRL.referenceframe)"} {"\[topnode input1].win_translate(CTRL.referenceframe)"}}
+  win_scale {{"\[topnode input1].win_scale(CTRL.referenceframe)"} {"\[topnode input1].win_scale(CTRL.referenceframe)"}}
+  winroll {{"\[topnode input1].winroll(CTRL.referenceframe)"}}
+  focal_point {{"\[topnode input1].focal_point(CTRL.referenceframe)"}}
+  fstop {{"\[topnode input1].fstop(CTRL.referenceframe)"}}
+  shutter {{"\[topnode input1].shutter(CTRL.referenceframe)"}}
+  shutteroffset centred
+  name cameraPM
+  xpos -410
+  ypos -705
+ }
+ Dot {
+  name Dot11
+  xpos -386
+  ypos -611
+ }
+set N27927e00 [stack 0]
+ Dot {
+  name Dot12
+  xpos -386
+  ypos -449
+ }
+push $N27927e00
+ Input {
+  inputs 0
+  name P
+  xpos -210
+  ypos -777
+ }
+ Remove {
+  operation keep
+  channels rgba
+  name Remove2
+  xpos -210
+  ypos -677
+ }
+ Group {
+  inputs 2
+  name W_2_E
+  xpos -210
+  ypos -614
+  addUserKnob {20 User l W_2_E}
+  addUserKnob {26 _1 l "" +STARTLINE T "WORLD TO EYE"}
+  addUserKnob {26 ""}
+  addUserKnob {3 ref l "REF FRAME"}
+  ref {{CTRL.referenceframe}}
+  addUserKnob {26 ""}
+  addUserKnob {26 _2 l "" +STARTLINE T "W_2_E by Peter Mercell inspired by Ivan Busquets & Pedro Andrade aka COMP LAIR"}
+ }
+  Input {
+   inputs 0
+   name CAM
+   xpos 48
+   ypos 53
+   number 1
+  }
+  Input {
+   inputs 0
+   name P
+   xpos 268
+   ypos 55
+  }
+  Shuffle2 {
+   fromInput1 {{0} B}
+   fromInput2 {{0} B}
+   mappings "4 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 white -1 -1 rgba.alpha 0 3"
+   name Shuffle7
+   xpos 268
+   ypos 121
+  }
+  Add {
+   value {{-1*parent.cameraPM.world_matrix.3} {-1*parent.cameraPM.world_matrix.7} {-1*parent.cameraPM.world_matrix.11} 0}
+   name Add5
+   xpos 268
+   ypos 161
+  }
+  ColorMatrix {
+   matrix {
+       {{parent.cameraPM.world_matrix.0?parent.cameraPM.world_matrix.0:1} {parent.cameraPM.world_matrix.1} {parent.cameraPM.world_matrix.2}}
+       {{parent.cameraPM.world_matrix.4} {parent.cameraPM.world_matrix.5?parent.cameraPM.world_matrix.5:1} {parent.cameraPM.world_matrix.6}}
+       {{parent.cameraPM.world_matrix.8} {parent.cameraPM.world_matrix.9} {parent.cameraPM.world_matrix.10?parent.cameraPM.world_matrix.10:1}}
+     }
+   invert true
+   name ColorMatrix6
+   xpos 268
+   ypos 223
+  }
+  Dot {
+   name Dot11
+   xpos 302
+   ypos 308
+  }
+  Output {
+   name Output1
+   xpos 268
+   ypos 408
+  }
+  Camera3 {
+   inputs 0
+   translate {{"\[topnode input1].translate(ref)"} {"\[topnode input1].translate(ref)"} {"\[topnode input1].translate(ref)"}}
+   rotate {{"\[topnode input1].rotate(ref)"} {"\[topnode input1].rotate(ref)"} {"\[topnode input1].rotate(ref)"}}
+   scaling {{"\[topnode input1].scaling(ref)"} {"\[topnode input1].scaling(ref)"} {"\[topnode input1].scaling(ref)"}}
+   uniform_scale {{"\[topnode input1].uniform_scale(ref)"}}
+   skew {{"\[topnode input1].skew(ref)"} {"\[topnode input1].skew(ref)"} {"\[topnode input1].skew(ref)"}}
+   pivot_translate {{"\[topnode input1].pivot_translate(ref)"} {"\[topnode input1].pivot_translate(ref)"} {"\[topnode input1].pivot_translate(ref)"}}
+   pivot_rotate {{"\[topnode input1].pivot_rotate(ref)"} {"\[topnode input1].pivot_rotate(ref)"} {"\[topnode input1].pivot_rotate(ref)"}}
+   focal {{"\[topnode input1].focal(ref)"}}
+   haperture {{"\[topnode input1].haperture(ref)"}}
+   vaperture {{"\[topnode input1].vaperture(ref)"}}
+   near {{"\[topnode input1].near(ref)"}}
+   far {{"\[topnode input1].far(ref)"}}
+   win_translate {{"\[topnode input1].win_translate(ref)"} {"\[topnode input1].win_translate(ref)"}}
+   win_scale {{"\[topnode input1].win_scale(ref)"} {"\[topnode input1].win_scale(ref)"}}
+   winroll {{"\[topnode input1].winroll(ref)"}}
+   focal_point {{"\[topnode input1].focal_point(ref)"}}
+   fstop {{"\[topnode input1].fstop(ref)"}}
+   shutter {{"\[topnode input1].shutter(ref)"}}
+   shutteroffset centred
+   name cameraPM
+   xpos 47
+   ypos 162
+  }
+ end_group
+ Dot {
+  name Dot5
+  xpos -176
+  ypos -569
+ }
+ Group {
+  inputs 2
+  name E_2_NDC
+  xpos -210
+  ypos -452
+  addUserKnob {20 User l E_2_NDC}
+  addUserKnob {26 _1 l "" +STARTLINE T "EYE TO NDC"}
+  addUserKnob {26 ""}
+  addUserKnob {3 ref l "REF FRAME"}
+  ref {{CTRL.referenceframe}}
+  addUserKnob {26 ""}
+  addUserKnob {26 _2 l "" +STARTLINE T "E_2_NDC by Peter Mercell inspired by Ivan Busquets & Pedro Andrade aka COMP LAIR"}
+ }
+  Input {
+   inputs 0
+   name CAM
+   xpos -16
+   ypos 27
+   number 1
+  }
+  Input {
+   inputs 0
+   name P
+   xpos 268
+   ypos 55
+  }
+  Shuffle2 {
+   fromInput1 {{0} B}
+   fromInput2 {{0} B}
+   name Shuffle7
+   xpos 268
+   ypos 97
+  }
+  ColorMatrix {
+   matrix {
+       {{1/tan(parent.FOV.h_fov)} 0 0}
+       {0 {1/tan(parent.FOV.h_fov)} 0}
+       {0 0 {"-(cameraPM.far + cameraPM.near) / (cameraPM.far - cameraPM.near)"}}
+     }
+   name ColorMatrix5
+   xpos 268
+   ypos 136
+  }
+set N2792e800 [stack 0]
+  Dot {
+   name Dot1
+   xpos 417
+   ypos 139
+  }
+  Dot {
+   name Dot10
+   xpos 417
+   ypos 265
+  }
+push $N2792e800
+  Add {
+   value {0 0 {"(-2*(cameraPM.far * cameraPM.near)) / (cameraPM.far - cameraPM.near)"} 0}
+   name Add4
+   xpos 268
+   ypos 198
+  }
+  Copy {
+   inputs 2
+   from0 rgba.blue
+   to0 rgba.alpha
+   name Copy1
+   xpos 268
+   ypos 258
+  }
+  Expression {
+   expr0 r/a
+   expr1 g/a
+   expr2 b/a
+   name W_konecne
+   xpos 268
+   ypos 311
+  }
+  Clamp {
+   channels alpha
+   name Clamp1
+   xpos 268
+   ypos 348
+  }
+  Dot {
+   name Dot11
+   xpos 302
+   ypos 415
+  }
+  Output {
+   name Output1
+   xpos 268
+   ypos 481
+  }
+  Camera3 {
+   inputs 0
+   translate {{"\[topnode input1].translate(ref)"} {"\[topnode input1].translate(ref)"} {"\[topnode input1].translate(ref)"}}
+   rotate {{"\[topnode input1].rotate(ref)"} {"\[topnode input1].rotate(ref)"} {"\[topnode input1].rotate(ref)"}}
+   scaling {{"\[topnode input1].scaling(ref)"} {"\[topnode input1].scaling(ref)"} {"\[topnode input1].scaling(ref)"}}
+   uniform_scale {{"\[topnode input1].uniform_scale(ref)"}}
+   skew {{"\[topnode input1].skew(ref)"} {"\[topnode input1].skew(ref)"} {"\[topnode input1].skew(ref)"}}
+   pivot_translate {{"\[topnode input1].pivot_translate(ref)"} {"\[topnode input1].pivot_translate(ref)"} {"\[topnode input1].pivot_translate(ref)"}}
+   pivot_rotate {{"\[topnode input1].pivot_rotate(ref)"} {"\[topnode input1].pivot_rotate(ref)"} {"\[topnode input1].pivot_rotate(ref)"}}
+   focal {{"\[topnode input1].focal(ref)"}}
+   haperture {{"\[topnode input1].haperture(ref)"}}
+   vaperture {{"\[topnode input1].vaperture(ref)"}}
+   near {{"\[topnode input1].near(ref)"}}
+   far {{"\[topnode input1].far(ref)"}}
+   win_translate {{"\[topnode input1].win_translate(ref)"} {"\[topnode input1].win_translate(ref)"}}
+   win_scale {{"\[topnode input1].win_scale(ref)"} {"\[topnode input1].win_scale(ref)"}}
+   winroll {{"\[topnode input1].winroll(ref)"}}
+   focal_point {{"\[topnode input1].focal_point(ref)"}}
+   fstop {{"\[topnode input1].fstop(ref)"}}
+   shutter {{"\[topnode input1].shutter(ref)"}}
+   shutteroffset centred
+   name cameraPM
+   xpos -17
+   ypos 123
+  }
+  NoOp {
+   inputs 0
+   name FOV
+   tile_color 0xff
+   note_font "Bitstream Vera Sans Bold"
+   xpos 109
+   ypos 88
+   hide_input true
+   addUserKnob {20 User l FOV}
+   addUserKnob {7 haperture l "h aperture" R 0 180}
+   haperture {{cameraPM.haperture}}
+   addUserKnob {7 vaperture l "v aperture" R 0 180}
+   vaperture {{cameraPM.vaperture}}
+   addUserKnob {7 focallenght l "focal lenght" R 0 180}
+   focallenght {{cameraPM.focal}}
+   addUserKnob {26 ""}
+   addUserKnob {7 h_fov l "calculated horizontal FOV (rad)"}
+   h_fov {{"(2 * atan(haperture / (2 * focallenght)))/2"}}
+   addUserKnob {7 v_fov l "calculated  vertical FOV (rad)"}
+   v_fov {{"(2 * atan(vaperture / (2 * focallenght)))/2"}}
+  }
+ end_group
+ Dot {
+  name Dot13
+  xpos -176
+  ypos -361
+ }
+ Group {
+  name NDC_2_SCREEN
+  xpos -210
+  ypos -261
+  addUserKnob {20 User l NDC_2_SCREEN}
+  addUserKnob {26 ""}
+  addUserKnob {26 _1 l "" +STARTLINE T "NDC_2_SCREEN by Peter Mercell inspired by Ivan Busquets"}
+ }
+  BackdropNode {
+   inputs 0
+   name BackdropNode1
+   tile_color 0x71c67100
+   label "NDC TO SCREEN"
+   note_font_size 42
+   xpos -223
+   ypos -253
+   bdwidth 229
+   bdheight 246
+  }
+  Input {
+   inputs 0
+   name Input1
+   xpos -213
+   ypos -211
+  }
+  Shuffle2 {
+   fromInput1 {{0} B}
+   fromInput2 {{0} B}
+   name Shuffle8
+   xpos -213
+   ypos -163
+  }
+  ColorMatrix {
+   channels all
+   matrix {
+       {{Shuffle8.width/2} 0 0}
+       {0 {(Shuffle8.width/2)*anamorph} 0}
+       {0 0 1}
+     }
+   name ColorMatrix6
+   label "If there is Anamorph you have to change matrix.4 position in this node to the full size of resolution (or use user anamorph slider)"
+   xpos -213
+   ypos -108
+   addUserKnob {20 User}
+   addUserKnob {7 anamorph R 1 2}
+   anamorph 1
+  }
+  Add {
+   value {{Shuffle8.width/2} {Shuffle8.height/2} 0 0}
+   name Add5
+   xpos -213
+   ypos -50
+  }
+  Output {
+   name Output1
+   xpos -213
+   ypos 50
+  }
+  StickyNote {
+   inputs 0
+   name StickyNote17
+   label "\[\[1828 0 0 0]\n \[0 3656 0 0]\n \[0 0 1 0]\n \[1828 1556 0 1]]\n\n\n stred je anamorph\n​\t\n  \n\[1828,0,0,1828]\n\[0,3656,0,1556]\n\[0,0,1,0]\n\[0,0,0,1]\n​\t\n "
+   xpos -97
+   ypos -193
+  }
+ end_group
+ Expression {
+  expr0 (r)/width
+  expr1 (g)/height
+  expr2 0
+  name Expression6
+  xpos -210
+  ypos -180
+ }
+ Dot {
+  name Dot4
+  xpos -176
+  ypos -112
+ }
+set N2766e800 [stack 0]
+ Merge2 {
+  inputs 2
+  operation divide
+  name Merge6
+  xpos -64
+  ypos -115
+ }
+ FrameHold {
+  firstFrame {{CTRL.referenceframe}}
+  name FrameHold2
+  xpos -64
+  ypos -91
+ }
+push $N2766e800
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge7
+  xpos -210
+  ypos -87
+ }
+ Output {
+  name Output1
+  xpos -210
+  ypos 13
+ }
+ Input {
+  inputs 0
+  name CAM
+  xpos -423
+  ypos -776
+  number 1
+ }
+ NoOp {
+  inputs 0
+  name CTRL
+  tile_color 0xff00ff
+  xpos -64
+  ypos -452
+  addUserKnob {20 User}
+  addUserKnob {3 referenceframe l "REF FRAME"}
+  referenceframe 50
+ }
+end_group
+RotoPaint {
+ inputs 0
+ cliptype none
+ curves {{{v x3f99999a}
+  {f 0}
+  {n
+   {layer Root
+    {f 2097664}
+    {t x44800000 x44428000}
+    {a pt1x 0 pt1y 0 pt2x 0 pt2y 0 pt3x 0 pt3y 0 pt4x 0 pt4y 0 ptex00 0 ptex01 0 ptex02 0 ptex03 0 ptex10 0 ptex11 0 ptex12 0 ptex13 0 ptex20 0 ptex21 0 ptex22 0 ptex23 0 ptex30 0 ptex31 0 ptex32 0 ptex33 0 ptof1x 0 ptof1y 0 ptof2x 0 ptof2y 0 ptof3x 0 ptof3y 0 ptof4x 0 ptof4y 0 pterr 0 ptrefset 0 ptmot x40800000 ptref 0}
+    {cubiccurve Brush21 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x447dbae1 x44719eb8 1}
+       {x447dce14 x44715c29 1}
+       {x447dea3d x4471999a 1}
+       {x447daccd x4471b70a 1}
+       {x447d6f5c x44719eb8 1}
+       {x447d9eb8 x44716f5c 1}
+       {x447de148 x44717d71 1}
+       {x447dce14 x4471c000 1}}}
+     {tx x42480000 x447dbbae x447192e0}
+     {a r x3f6aaaeb g x3eaaaaab ro 0 go 0 bo 0 ao 0 bs x40800000 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 ltt x40000000 tt x41880000}}
+    {cubiccurve Brush20 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x4490a000 x4455b99a 1}
+       {x4490a000 x44560000 1}
+       {x4490a000 x44564000 1}
+       {x4490a000 x4456999a 1}
+       {x4490a000 x4456e000 1}
+       {x4490a000 x44572000 1}
+       {x4490a000 x44576666 1}
+       {x4490c333 x44579333 1}
+       {x4490e333 x4457c000 1}
+       {x44910666 x44579333 1}
+       {x44912666 x44574ccd 1}
+       {x44913ccd x4456f333 1}
+       {x44916000 x4456b333 1}
+       {x44917666 x4456599a 1}
+       {x44918ccd x44560000 1}
+       {x4491a333 x4455a666 1}
+       {x4491accd x44556000 1}
+       {x4491b99a x44552000 1}
+       {x4491c333 x4454d99a 1}
+       {x4491d000 x4454999a 1}
+       {x4491f000 x44548000 1}
+       {x44921333 x44548000 1}
+       {x4492299a x4454f333 1}
+       {x44923333 x44553333 1}
+       {x44925666 x4455d333 1}
+       {x44926ccd x4456599a 1}
+       {x44928333 x44570ccd 1}
+       {x44929000 x4457d333 1}
+       {x4492999a x44582ccd 1}
+       {x4492999a x4458e000 1}
+       {x4492a666 x44592666 1}
+       {x4492a666 x44598000 1}
+       {x4492a666 x4459d99a 1}
+       {x4492a666 x445a2000 1}
+       {x4492c666 x4459f333 1}
+       {x4492f333 x44598000 1}
+       {x4493099a x44592666 1}
+       {x44932ccd x4458e000 1}
+       {x44934ccd x44588666 1}
+       {x44937000 x44584666 1}
+       {x44938666 x4457d333 1}
+       {x44939ccd x4457799a 1}
+       {x4493a666 x4457399a 1}
+       {x4493c99a x4457c000 1}
+       {x4493d333 x44580000 1}
+       {x4493e000 x4458599a 1}
+       {x4493e99a x4458a000 1}
+       {x44940000 x4458599a 1}
+       {x44940ccd x4458199a 1}
+       {x44941666 x4457d333 1}
+       {x4494399a x4457eccd 1}
+       {x44945000 x44582ccd 1}
+       {x44947000 x44582ccd 1}
+       {x44948666 x4457d333 1}
+       {x44949333 x44579333 1}
+       {x4494b333 x44574ccd 1}
+       {x4494d666 x44574ccd 1}
+       {x4494f99a x4457a666 1}
+       {x4495199a x4457d333 1}
+       {x44952666 x44576666 1}
+       {x44952666 x44570ccd 1}
+       {x44952666 x4456c666 1}
+       {x44953ccd x44566ccd 1}
+       {x44952666 x44562ccd 1}
+       {x44951000 x4455d333 1}
+       {x4494f99a x44556000 1}
+       {x4494e333 x44552000 1}
+       {x4494e333 x44556000 1}
+       {x4494b333 x44553333 1}
+       {x44946666 x4454d99a 1}
+       {x44940ccd x44545333 1}
+       {x4493e000 x44542666 1}
+       {x4493bccd x4453e000 1}
+       {x4493799a x4453b333 1}
+       {x44934ccd x44537333 1}
+       {x44932ccd x4453599a 1}
+       {x44934ccd x4453599a 1}
+       {x44937000 x4453599a 1}
+       {x44939ccd x4453599a 1}
+       {x4493c99a x4453599a 1}
+       {x4493e99a x4453599a 1}
+       {x4493bccd x44538666 1}
+       {x44939ccd x44538666 1}
+       {x4493b333 x44534666 1}
+       {x4493e000 x4453199a 1}
+       {x44940000 x4453199a 1}
+       {x44942333 x4453199a 1}
+       {x44944333 x4453199a 1}
+       {x44946666 x4453199a 1}
+       {x44949333 x44534666 1}
+       {x4494b333 x44537333 1}
+       {x4494d666 x4453cccd 1}
+       {x4494f99a x44542666 1}
+       {x4494f99a x44546666 1}
+       {x44951000 x4454accd 1}
+       {x4495199a x44550666 1}
+       {x4494eccd x44553333 1}
+       {x4494a99a x44553333 1}
+       {x44944333 x44552000 1}
+       {x4493d333 x4454accd 1}
+       {x44939ccd x44548000 1}
+       {x44934333 x44542666 1}
+       {x44932000 x44540ccd 1}
+       {x4492e99a x4453cccd 1}
+       {x4492c666 x4453a000 1}
+       {x4492a666 x44538666 1}
+       {x4492c666 x44538666 1}
+       {x4492e99a x44538666 1}
+       {x44931666 x44538666 1}
+       {x44934333 x4453a000 1}
+       {x44937000 x4453a000 1}
+       {x4493a666 x4453a000 1}
+       {x4493d333 x4453b333 1}
+       {x4493e000 x4453f99a 1}
+       {x4493a666 x44542666 1}
+       {x44938666 x44545333 1}
+       {x4493599a x44548000 1}
+       {x44932ccd x4454c666 1}
+       {x44930000 x44550666 1}
+       {x4492dccd x44556000 1}
+       {x4492bccd x4455b99a 1}
+       {x4492a666 x44560000 1}
+       {x4492f333 x44562ccd 1}
+       {x44934333 x4455e666 1}
+       {x44939000 x44558ccd 1}
+       {x4493e000 x44553333 1}
+       {x44940ccd x44550666 1}
+       {x4494599a x4454accd 1}
+       {x4494a99a x44545333 1}
+       {x4494cccd x4454399a 1}
+       {x4494eccd x44540ccd 1}
+       {x44950333 x44545333 1}
+       {x44952666 x44545333 1}
+       {x44954666 x44545333 1}
+       {x4495699a x44545333 1}
+       {x4495899a x44548000 1}
+       {x4495accd x4454c666 1}
+       {x4495c333 x44550666 1}
+       {x4495f99a x4455b99a 1}
+       {x44961ccd x44562ccd 1}
+       {x4496499a x4456c666 1}
+       {x44966000 x44572000 1}
+       {x44968ccd x4457c000 1}
+       {x4496accd x44584666 1}
+       {x4496b99a x4458a000 1}
+       {x4496d000 x4458e000 1}
+       {x4496c333 x44592666 1}
+       {x4496a333 x4459399a 1}
+       {x4496699a x44596666 1}
+       {x4495d99a x4459accd 1}
+       {x4495899a x4459d99a 1}
+       {x44955ccd x4459d99a 1}
+       {x44950333 x4459f333 1}
+       {x4494b333 x445a2000 1}
+       {x44947000 x445a2000 1}
+       {x4494399a x445a2000 1}
+       {x44941666 x445a2000 1}
+       {x44942333 x445a799a 1}
+       {x44942ccd x445ab99a 1}
+       {x4494399a x445b0000 1}
+       {x4494399a x445b4000 1}
+       {x4494599a x445b8666 1}
+       {x44947ccd x445b8666 1}
+       {x4494a99a x445b999a 1}
+       {x4494cccd x445b999a 1}
+       {x44950333 x445b999a 1}
+       {x44953ccd x445b999a 1}
+       {x44955ccd x445bb333 1}
+       {x44957333 x445bf333 1}
+       {x4495699a x445c399a 1}
+       {x44954666 x445c799a 1}
+       {x4495199a x445cc000 1}
+       {x4494eccd x445ceccd 1}
+       {x4494cccd x445d0000 1}
+       {x44949333 x445d0000 1}
+       {x44946666 x445d0000 1}
+       {x44944333 x445d0000 1}
+       {x44942333 x445cd333 1}
+       {x44940000 x445c9333 1}
+       {x4493e000 x445c4ccd 1}
+       {x4493c99a x445c0ccd 1}
+       {x4493b333 x445bc666 1}
+       {x44939000 x445b6ccd 1}
+       {x4493799a x445b2ccd 1}
+       {x44936333 x445ae666 1}
+       {x44934333 x445ab99a 1}
+       {x44932000 x445a8ccd 1}
+       {x4492f333 x445a8ccd 1}
+       {x4492d333 x445a799a 1}
+       {x4492b000 x445a799a 1}
+       {x44929000 x445a6000 1}
+       {x44926ccd x445a6000 1}
+       {x44924ccd x445a6000 1}
+       {x44921ccd x445a6000 1}
+       {x4491e666 x445a8ccd 1}
+       {x4491c333 x445ab99a 1}
+       {x4491a333 x445ad333 1}
+       {x4491c333 x445ad333 1}
+       {x4491e666 x445ad333 1}
+       {x44920666 x445ad333 1}
+       {x44920666 x445b1333 1}
+       {x4491d99a x445b599a 1}
+       {x4491b99a x445b6ccd 1}
+       {x44919666 x445b6ccd 1}
+       {x4491699a x445b6ccd 1}
+       {x4491499a x445b1333 1}
+       {x4491499a x445ad333 1}
+       {x4491499a x445a8ccd 1}
+       {x4491699a x445a6000 1}
+       {x44915333 x445aa666 1}
+       {x44913333 x445ad333 1}
+       {x44910666 x445ae666 1}
+       {x4490d99a x445b0000 1}
+       {x4490b666 x445b0000 1}
+       {x44908000 x445b0000 1}
+       {x44905ccd x445b0000 1}
+       {x44908000 x445ad333 1}
+       {x4490a000 x445ab99a 1}
+       {x4490c333 x445aa666 1}
+       {x4490f99a x445a6000 1}
+       {x44913333 x445a3333 1}
+       {x4491699a x4459d99a 1}
+       {x44919666 x4459999a 1}
+       {x4491accd x44596666 1}
+       {x4491b99a x44592666 1}
+       {x44919666 x44592666 1}}}
+     {tx x42480000 x4493738f x44579a2d}
+     {a r x3f5fffe0 b 0 ro 0 go 0 bo 0 ao 0 bs x40800000 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 ltt x40000000 tt x41880000}}
+    {cubiccurve Brush19 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x454e4000 x44320000 1}}}
+     {tx x42480000 x454e4000 x44320000}
+     {a ro 0 go 0 bo 0 ao 0 bs x40800000 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 ltt x40000000 tt x41880000}}
+    {cubiccurve Brush18 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x44970333 x4462d99a 1}
+       {x44972333 x4462c000 1}
+       {x44974666 x44629333 1}
+       {x44976666 x44626666 1}
+       {x4497899a x4462399a 1}
+       {x4497a99a x44620ccd 1}
+       {x4497c000 x4461cccd 1}
+       {x4497e333 x4461a000 1}
+       {x4497f99a x4461599a 1}
+       {x4498199a x44614666 1}
+       {x44983ccd x44614666 1}
+       {x44985ccd x44618666 1}
+       {x44987333 x4461cccd 1}
+       {x44988ccd x44620ccd 1}
+       {x44989666 x44625333 1}
+       {x44989666 x44629333 1}
+       {x4498b99a x44629333 1}
+       {x4498d000 x44625333 1}
+       {x4498d99a x44620ccd 1}
+       {x4498d99a x4461cccd 1}
+       {x4498e666 x44618666 1}
+       {x4498f000 x44614666 1}
+       {x44991333 x4461599a 1}
+       {x44993333 x4461b333 1}
+       {x44996000 x4461f99a 1}
+       {x44998333 x4462399a 1}
+       {x4499a333 x4461f99a 1}
+       {x4499a333 x4461b333 1}
+       {x4499b000 x44617333 1}
+       {x4499b99a x44612ccd 1}
+       {x4499dccd x4461199a 1}
+       {x4499fccd x44614666 1}
+       {x449a2000 x44618666 1}
+       {x449a4000 x4461cccd 1}
+       {x449a6333 x44620ccd 1}
+       {x449a6333 x4461cccd 1}
+       {x449a6333 x44618666 1}
+       {x449a6333 x44614666 1}
+       {x449a8333 x44612ccd 1}
+       {x449aa666 x44612ccd 1}
+       {x449ac666 x44612ccd 1}
+       {x449ae99a x44614666 1}
+       {x449b0ccd x4461599a 1}
+       {x449b1666 x4461199a 1}
+       {x449b1666 x4460d333 1}
+       {x449b1666 x44608ccd 1}
+       {x449b399a x44606000 1}
+       {x449b6666 x44606000 1}
+       {x449b9333 x4460a666 1}
+       {x449bc99a x4460d333 1}
+       {x449beccd x44610000 1}
+       {x449c199a x4461199a 1}
+       {x449c399a x44612ccd 1}
+       {x449c399a x4460e666 1}
+       {x449c399a x44608ccd 1}
+       {x449c399a x44604ccd 1}
+       {x449c399a x44600666 1}
+       {x449c399a x445fc666 1}
+       {x449c4666 x445f8000 1}
+       {x449c5000 x445f4000 1}
+       {x449c6666 x445ef99a 1}
+       {x449c899a x445eb99a 1}
+       {x449ca000 x445e7333 1}
+       {x449c7ccd x445e7333 1}
+       {x449c5ccd x445e8ccd 1}
+       {x449c199a x445eb99a 1}
+       {x449bf666 x445eb99a 1}
+       {x449bd666 x445eb99a 1}
+       {x449bb333 x445eb99a 1}
+       {x449b9333 x445eb99a 1}
+       {x449b7000 x445eb99a 1}
+       {x449b5000 x445eb99a 1}
+       {x449b2ccd x445eb99a 1}
+       {x449b0ccd x445eb99a 1}
+       {x449ae99a x445eb99a 1}
+       {x449ac666 x445ecccd 1}
+       {x449aa666 x445ecccd 1}
+       {x449a8333 x445ee666 1}
+       {x449a6333 x445ef99a 1}
+       {x449a4000 x445ef99a 1}
+       {x449a2000 x445f1333 1}
+       {x4499fccd x445f1333 1}
+       {x4499dccd x445f1333 1}
+       {x4499b99a x445f1333 1}
+       {x4499999a x445ee666 1}
+       {x4499999a x445ea000 1}
+       {x4499999a x445e4666 1}
+       {x4499999a x445e0666 1}
+       {x4499b000 x445dc000 1}
+       {x4499d000 x445d8000 1}
+       {x4499fccd x445d6666 1}
+       {x449a2000 x445d5333 1}
+       {x449a4000 x445d5333 1}
+       {x449a6ccd x445d5333 1}
+       {x449a9000 x445d5333 1}
+       {x449ab000 x445d5333 1}
+       {x449ad333 x445d5333 1}
+       {x449ad333 x445d0ccd 1}
+       {x449adccd x445cb333 1}
+       {x449ae99a x445c599a 1}
+       {x449af333 x445c0000 1}
+       {x449b0000 x445bb99a 1}
+       {x449b2333 x445b8ccd 1}
+       {x449b4333 x445b8ccd 1}
+       {x449b6666 x445b8ccd 1}
+       {x449b9333 x445b8ccd 1}
+       {x449bb333 x445ba666 1}
+       {x449bd666 x445bd333 1}
+       {x449bf666 x445bd333 1}
+       {x449c0ccd x445b8ccd 1}
+       {x449c3000 x445b8ccd 1}
+       {x449c5ccd x445b8ccd 1}
+       {x449c899a x445b8ccd 1}
+       {x449ca99a x445b8ccd 1}
+       {x449ccccd x445b8ccd 1}
+       {x449ceccd x445b8ccd 1}
+       {x449d1000 x445b8ccd 1}
+       {x449d3000 x445b6000 1}
+       {x449d4666 x445b2000 1}
+       {x449d699a x445af333 1}
+       {x449d8ccd x445ad99a 1}
+       {x449daccd x445ac666 1}
+       {x449dd000 x445ac666 1}
+       {x449dfccd x445aaccd 1}
+       {x449e299a x445a999a 1}
+       {x449e6000 x445a999a 1}
+       {x449e8333 x445a8000 1}
+       {x449ea333 x445a8000 1}
+       {x449ec666 x445a5333 1}
+       {x449ee666 x445a4000 1}
+       {x449ef333 x4459f99a 1}
+       {x449ef333 x4459b99a 1}
+       {x449ef333 x44596000 1}
+       {x449ef333 x4459199a 1}
+       {x449f1333 x4459199a 1}
+       {x449f3666 x44593333 1}
+       {x449f5666 x44593333 1}
+       {x449f799a x44593333 1}
+       {x449f999a x44593333 1}
+       {x449fbccd x44593333 1}
+       {x449fdccd x44593333 1}
+       {x44a00000 x44593333 1}
+       {x44a02333 x4459199a 1}
+       {x44a02333 x4458d99a 1}
+       {x44a04333 x4458accd 1}}}
+     {tx x42480000 x449b5611 x445e6c13}
+     {a r 0 b 0 ro 0 go 0 bo 0 ao 0 bs x40800000 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 ltt x40000000 tt x41880000}}
+    {cubiccurve Brush17 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x4497fe66 x4457a666 1}}}
+     {tx x42480000 x4497fe66 x4457a666}
+     {a r x3e000080 b 0 ro 0 go 0 bo 0 ao 0 bs x40800000 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 ltt x40000000 tt x41880000}}
+    {cubiccurve Brush16 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x44918333 x44624666 1}
+       {x44918333 x4461e666 1}
+       {x44918333 x44616ccd 1}
+       {x44918333 x4461199a 1}
+       {x44918333 x4460cccd 1}
+       {x44918333 x44608666 1}
+       {x44918333 x44603333 1}
+       {x44917ccd x445fd99a 1}
+       {x44917ccd x445f8666 1}
+       {x44915333 x445fa000 1}
+       {x44912ccd x445faccd 1}
+       {x4491099a x445fb99a 1}
+       {x4490e99a x445fb99a 1}
+       {x4490c666 x445fb99a 1}
+       {x44909ccd x445fb99a 1}
+       {x44907000 x445fb99a 1}
+       {x44904ccd x445fb99a 1}
+       {x44902666 x445fb99a 1}
+       {x448ffccd x445fb99a 1}
+       {x448fd333 x445fb99a 1}
+       {x448faccd x445fb99a 1}
+       {x448fa666 x44600000 1}
+       {x448fb333 x44605333 1}
+       {x448fb99a x44609333 1}
+       {x448fb99a x4460d99a 1}
+       {x448fb99a x4461199a 1}
+       {x448fb99a x44616000 1}
+       {x448fb99a x4461a000 1}
+       {x448fb99a x4461e666 1}
+       {x448fb99a x44622666 1}
+       {x448fe99a x44623333 1}
+       {x44903333 x44623333 1}
+       {x44907ccd x44623333 1}
+       {x4490a666 x44623333 1}
+       {x4490d333 x44623333 1}
+       {x44910333 x44623333 1}
+       {x44912ccd x44623333 1}
+       {x4491599a x44623333 1}
+       {x4491899a x44624666 1}
+       {x4491accd x44624666 1}}}
+     {tx x42480000 x4490a691 x4460e7b3}
+     {a ro 0 go 0 bo 0 ao 0 bs x40800000 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 ltt x40000000 tt x41880000}}
+    {cubiccurve Brush15 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x44871000 x44616000 1}
+       {x44873333 x4461799a 1}
+       {x44875333 x4461a000 1}
+       {x44877ccd x4461d99a 1}
+       {x4487b333 x44622666 1}
+       {x4487e333 x44626000 1}
+       {x44881000 x44629333 1}
+       {x4488399a x4462cccd 1}
+       {x44886333 x4462f333 1}
+       {x44888333 x44630ccd 1}
+       {x4488accd x44632666 1}
+       {x4488d99a x44632666 1}
+       {x4489099a x44634666 1}
+       {x44893333 x44634666 1}
+       {x44895333 x44634666 1}
+       {x44898333 x44635333 1}
+       {x4489a666 x44635333 1}
+       {x4489cccd x44635333 1}
+       {x4489fccd x44635333 1}
+       {x448a1ccd x44634666 1}
+       {x448a4666 x44633333 1}
+       {x448a699a x44632666 1}
+       {x448a899a x44630ccd 1}
+       {x448aaccd x44630000 1}
+       {x448acccd x4462f333 1}
+       {x448af000 x4462e666 1}
+       {x448b1000 x4462e666 1}
+       {x448b2ccd x4463199a 1}
+       {x448b4000 x44635333 1}
+       {x448b5333 x4463a000 1}
+       {x448b7000 x4463e666 1}
+       {x448b899a x4464199a 1}
+       {x448b9ccd x44646000 1}
+       {x448bc000 x44646000 1}
+       {x448be333 x44643333 1}
+       {x448c099a x44640ccd 1}
+       {x448c3333 x4463e666 1}
+       {x448c5333 x4463b99a 1}
+       {x448c7000 x44639333 1}
+       {x448c899a x44636ccd 1}
+       {x448caccd x44635333 1}
+       {x448ccccd x44633333 1}
+       {x448cf000 x44632666 1}
+       {x448d1000 x44632666 1}
+       {x448d2ccd x44634666 1}
+       {x448d4ccd x44636ccd 1}
+       {x448d7000 x44639333 1}
+       {x448d9000 x4463a000 1}
+       {x448db333 x4463a000 1}
+       {x448dd333 x44639333 1}
+       {x448df666 x4463799a 1}
+       {x448e1000 x44635333 1}
+       {x448e2ccd x4463199a 1}
+       {x448e4ccd x4462f333 1}
+       {x448e699a x4462b99a 1}
+       {x448e8333 x44628666 1}
+       {x448e9ccd x44626000 1}
+       {x448eb99a x44623333 1}
+       {x448ed99a x44623333 1}}}
+     {tx x42480000 x448b39b5 x446320c3}
+     {a ro 0 go 0 bo 0 ao 0 bs x40800000 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 ltt x40000000 tt x41880000}}
+    {cubiccurve Brush14 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x448f099a x44620ccd 1}}}
+     {tx x42480000 x448f099a x44620ccd}
+     {a ro 0 go 0 bo 0 ao 0 bs x40800000 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 ltt x40000000 tt x41880000}}
+    {cubiccurve Brush13 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x4493b99a x444e8ccd 1}
+       {x4493f99a x444e4ccd 1}
+       {x44942666 x444e0ccd 1}
+       {x4494599a x444dcccd 1}
+       {x44948666 x444d8ccd 1}
+       {x4494a666 x444d4ccd 1}
+       {x4494c666 x444d3333 1}
+       {x4494e666 x444cf333 1}
+       {x44950666 x444ccccd 1}
+       {x4495199a x444c8ccd 1}
+       {x4495399a x444c7333 1}
+       {x44952666 x444cb333 1}
+       {x4495199a x444cf333 1}
+       {x4494f99a x444d3333 1}
+       {x4494f99a x444d7333 1}
+       {x4495199a x444d8ccd 1}
+       {x4495399a x444db333 1}
+       {x4495399a x444df333 1}
+       {x4495399a x444e3333 1}
+       {x4495599a x444e4ccd 1}
+       {x4495799a x444e8ccd 1}
+       {x4495999a x444eb333 1}
+       {x4495b99a x444ef333 1}
+       {x4495d99a x444f0ccd 1}
+       {x4495f99a x444f0ccd 1}
+       {x44962666 x444f3333 1}
+       {x44964666 x444f3333 1}
+       {x4496599a x444ef333 1}
+       {x4496799a x444ecccd 1}
+       {x4496999a x444eb333 1}
+       {x4496999a x444e7333 1}
+       {x4496a666 x444eb333 1}
+       {x4496a666 x444ef333 1}
+       {x4496a666 x444f3333 1}
+       {x4496b99a x444f8ccd 1}
+       {x4496c666 x444ff333 1}
+       {x4496d99a x44503333 1}
+       {x4496e666 x444ff333 1}
+       {x4496f99a x444fb333 1}
+       {x4496f99a x444f7333 1}
+       {x44970666 x444f3333 1}
+       {x44970666 x444ef333 1}
+       {x44972666 x444e8ccd 1}
+       {x4497399a x444e4ccd 1}
+       {x44974666 x444df333 1}
+       {x4497599a x444db333 1}
+       {x4497799a x444db333 1}
+       {x4497799a x444df333 1}
+       {x44978666 x444e3333 1}
+       {x44978666 x444e7333 1}
+       {x4497999a x444ecccd 1}
+       {x4497999a x444f3333 1}
+       {x4497a666 x444f8ccd 1}
+       {x4497a666 x444fcccd 1}
+       {x4497a666 x44500ccd 1}
+       {x4497b99a x44504ccd 1}
+       {x4497b99a x44508ccd 1}
+       {x4497d99a x4450b333 1}
+       {x4497d99a x44507333 1}
+       {x4497e666 x44503333 1}
+       {x4497f99a x444ff333 1}
+       {x44980666 x444fb333 1}
+       {x4498199a x444f7333 1}
+       {x4498399a x444f4ccd 1}
+       {x4498599a x444f7333 1}
+       {x4498799a x444fb333 1}
+       {x4498999a x444fcccd 1}
+       {x4498b99a x444ff333 1}
+       {x4498d99a x444ff333 1}
+       {x4498f99a x444ff333 1}
+       {x4499199a x444ff333 1}
+       {x44992666 x444fb333 1}
+       {x4499399a x444f7333 1}
+       {x4499599a x444ef333 1}
+       {x44996666 x444e8ccd 1}
+       {x4499799a x444e4ccd 1}
+       {x4499999a x444e3333 1}
+       {x4499999a x444e7333 1}
+       {x4499a666 x444ecccd 1}
+       {x4499b99a x444f4ccd 1}
+       {x4499d99a x444fb333 1}
+       {x4499e666 x444ff333 1}
+       {x4499f99a x44504ccd 1}
+       {x449a199a x44508ccd 1}
+       {x449a2666 x4450cccd 1}
+       {x449a4666 x44510ccd 1}
+       {x449a6666 x44513333 1}
+       {x449a6666 x4450f333 1}
+       {x449a799a x4450b333 1}
+       {x449a8666 x44507333 1}
+       {x449aa666 x44504ccd 1}
+       {x449ac666 x44504ccd 1}
+       {x449ac666 x44500ccd 1}
+       {x449ae666 x444ff333 1}
+       {x449ae666 x444fb333 1}
+       {x449b0666 x444ff333 1}
+       {x449b199a x44503333 1}
+       {x449b399a x44504ccd 1}
+       {x449b599a x44504ccd 1}
+       {x449b799a x44500ccd 1}
+       {x449b999a x444f8ccd 1}
+       {x449bb99a x444ecccd 1}
+       {x449bc666 x444e8ccd 1}
+       {x449be666 x444e8ccd 1}
+       {x449be666 x444ecccd 1}
+       {x449c0666 x444f0ccd 1}
+       {x449c199a x444f4ccd 1}
+       {x449c399a x444f8ccd 1}
+       {x449c599a x444f7333 1}
+       {x449c599a x444f0ccd 1}
+       {x449c6666 x444ecccd 1}
+       {x449c8666 x444e8ccd 1}
+       {x449ca666 x444e7333 1}
+       {x449cd99a x444eb333 1}
+       {x449cf99a x444ecccd 1}
+       {x449d199a x444ef333 1}
+       {x449d399a x444f0ccd 1}
+       {x449d599a x444f3333 1}
+       {x449d799a x444f4ccd 1}
+       {x449d999a x444f7333 1}
+       {x449dc666 x444f8ccd 1}
+       {x449de666 x444f8ccd 1}
+       {x449e0666 x444fb333 1}
+       {x449e399a x444fcccd 1}
+       {x449e599a x444fcccd 1}
+       {x449e799a x444ff333 1}
+       {x449e999a x444ff333 1}
+       {x449eb99a x44500ccd 1}
+       {x449ed99a x44503333 1}
+       {x449ef99a x44503333 1}
+       {x449f199a x44503333 1}
+       {x449f399a x44503333 1}
+       {x449f599a x44503333 1}
+       {x449f799a x44503333 1}
+       {x449f999a x44503333 1}
+       {x449fb99a x44503333 1}
+       {x449fd99a x44503333 1}
+       {x449fe666 x444ff333 1}
+       {x44a0199a x444fcccd 1}
+       {x44a04666 x444f8ccd 1}
+       {x44a06666 x444f7333 1}
+       {x44a08666 x444f4ccd 1}
+       {x44a0a666 x444f4ccd 1}
+       {x44a0b99a x444f0ccd 1}
+       {x44a0a666 x444ecccd 1}
+       {x44a08666 x444e8ccd 1}
+       {x44a0799a x444e4ccd 1}
+       {x44a06666 x444e0ccd 1}
+       {x44a04666 x444dcccd 1}
+       {x44a02666 x444d8ccd 1}
+       {x44a0199a x444d4ccd 1}
+       {x44a00666 x444d0ccd 1}
+       {x449fe666 x444ccccd 1}
+       {x449fd99a x444c8ccd 1}
+       {x449fb99a x444c7333 1}
+       {x449f999a x444c4ccd 1}
+       {x449f799a x444c3333 1}
+       {x449f6666 x444bf333 1}
+       {x449f4666 x444bcccd 1}
+       {x449f2666 x444bb333 1}
+       {x449f199a x444b7333 1}
+       {x449ef99a x444b4ccd 1}
+       {x449ed99a x444b3333 1}
+       {x449ec666 x444af333 1}
+       {x449ea666 x444acccd 1}
+       {x449e8666 x444a8ccd 1}
+       {x449e6666 x444a4ccd 1}
+       {x449e599a x444a0ccd 1}
+       {x449e399a x4449f333 1}
+       {x449e2666 x4449b333 1}
+       {x449e199a x44497333 1}
+       {x449df99a x44494ccd 1}
+       {x449de666 x44490ccd 1}
+       {x449dd99a x4448cccd 1}
+       {x449db99a x44488ccd 1}
+       {x449d999a x44487333 1}
+       {x449d8666 x44483333 1}
+       {x449d6666 x4447f333 1}
+       {x449d4666 x4447b333 1}
+       {x449d2666 x44478ccd 1}
+       {x449d199a x44474ccd 1}
+       {x449d0666 x44470ccd 1}
+       {x449ce666 x4446f333 1}
+       {x449cd99a x4446b333 1}
+       {x449cb99a x44468ccd 1}
+       {x449ca666 x44464ccd 1}
+       {x449c8666 x44460ccd 1}
+       {x449c6666 x4445cccd 1}
+       {x449c599a x44458ccd 1}
+       {x449c399a x44454ccd 1}
+       {x449c199a x44450ccd 1}
+       {x449bf99a x4444cccd 1}
+       {x449be666 x44448ccd 1}
+       {x449bd99a x44444ccd 1}
+       {x449bb99a x44440ccd 1}
+       {x449ba666 x4443cccd 1}
+       {x449b999a x44438ccd 1}
+       {x449b8666 x44434ccd 1}
+       {x449b799a x44430ccd 1}
+       {x449b599a x4442cccd 1}
+       {x449b4666 x44428ccd 1}
+       {x449b399a x44424ccd 1}
+       {x449b2666 x44420ccd 1}
+       {x449b0666 x4441f333 1}
+       {x449af99a x4441b333 1}
+       {x449ad99a x44418ccd 1}
+       {x449ac666 x44414ccd 1}
+       {x449ab99a x44410ccd 1}
+       {x449a999a x4440cccd 1}
+       {x449a8666 x44408ccd 1}
+       {x449a799a x44404ccd 1}
+       {x449a6666 x44400ccd 1}
+       {x449a599a x443fcccd 1}}}
+     {tx x42480000 x449ad1de x444cb753}
+     {a ro 0 go 0 bo 0 ao 0 bs x40800000 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 tt x41880000}}
+    {cubiccurve Brush12 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x448a3800 x4450599a 1}
+       {x448a3333 x44509ccd 1}
+       {x448a3333 x4450e333 1}
+       {x448a4ccd x44511ccd 1}
+       {x448a6000 x4451599a 1}
+       {x448a7ccd x44518000 1}
+       {x448aa4cd x4451899a 1}
+       {x448acccd x44519ccd 1}
+       {x448aee66 x4451a666 1}
+       {x448b1b33 x4451b000 1}
+       {x448b3ccd x4451b000 1}
+       {x448b6000 x4451b000 1}
+       {x448b8ccd x4451a666 1}
+       {x448bb333 x44519ccd 1}
+       {x448bd666 x4451899a 1}
+       {x448bf333 x44516ccd 1}
+       {x448bfccd x44511ccd 1}
+       {x448c0800 x4450d99a 1}
+       {x448c0ccd x4450899a 1}
+       {x448c1b33 x44505000 1}
+       {x448c4800 x44505000 1}
+       {x448c6e66 x44506333 1}
+       {x448c8800 x4450899a 1}
+       {x448ca4cd x4450a666 1}
+       {x448cc800 x4450a666 1}
+       {x448cdb33 x44505000 1}
+       {x448ce99a x44501333 1}
+       {x448cfccd x444fd000 1}
+       {x448d0ccd x444f899a 1}
+       {x448d1666 x444f4666 1}
+       {x448d2000 x444f0000 1}
+       {x448d299a x444eb99a 1}
+       {x448d2e66 x444e7666 1}
+       {x448d3800 x444e2666 1}
+       {x448d3800 x444de333 1}
+       {x448d2e66 x444d9333 1}
+       {x448d1b33 x444d599a 1}
+       {x448cfccd x444d2666 1}
+       {x448cd666 x444d099a 1}
+       {x448ca99a x444ceccd 1}
+       {x448c8333 x444cd99a 1}
+       {x448c6000 x444cc666 1}
+       {x448c3800 x444cb000 1}
+       {x448c1666 x444c9333 1}
+       {x448bf333 x444c7666 1}
+       {x448be4cd x444c399a 1}
+       {x448be4cd x444bf666 1}
+       {x448bbccd x444be333 1}
+       {x448b9666 x444bd000 1}
+       {x448b699a x444bc666 1}
+       {x448b3800 x444bb99a 1}
+       {x448b1666 x444bb000 1}
+       {x448aee66 x444bb000 1}
+       {x448ac800 x444bb000 1}
+       {x448aa000 x444bb000 1}
+       {x448a7ccd x444bb99a 1}
+       {x448a6000 x444beccd 1}
+       {x448a4333 x444c1ccd 1}
+       {x448a3ccd x444bd99a 1}
+       {x448a3333 x444b899a 1}
+       {x448a1666 x444b599a 1}
+       {x4489f333 x444b4666 1}
+       {x4489c800 x444b399a 1}
+       {x4489a4cd x444b3000 1}
+       {x44897800 x444b2666 1}
+       {x44894ccd x444b3000 1}
+       {x4489299a x444b599a 1}
+       {x44890ccd x444b8000 1}
+       {x4488f333 x444ba666 1}
+       {x4488d19a x444be333 1}
+       {x4488b800 x444c099a 1}
+       {x44889b33 x444c4666 1}
+       {x44888800 x444c8000 1}
+       {x448864cd x444c8000 1}
+       {x44883ccd x444c6ccd 1}
+       {x44881666 x444c5000 1}
+       {x4487f333 x444c4666 1}
+       {x4487cccd x444c4666 1}
+       {x4487b333 x444c7666 1}
+       {x4487a000 x444cd000 1}
+       {x44879666 x444d1ccd 1}
+       {x4487919a x444d6ccd 1}
+       {x4487919a x444db99a 1}
+       {x4487919a x444e1ccd 1}
+       {x44879666 x444e6333 1}
+       {x44879b33 x444ea666 1}
+       {x4487ae66 x444eeccd 1}
+       {x4487c800 x444f2666 1}
+       {x4487e000 x444f599a 1}
+       {x4487fccd x444f899a 1}
+       {x44881b33 x444fb000 1}
+       {x44884ccd x444fd99a 1}
+       {x44887333 x444feccd 1}
+       {x44889666 x44500000 1}
+       {x4488b800 x4450099a 1}
+       {x4488a4cd x44504666 1}
+       {x44888ccd x44507666 1}
+       {x44887333 x4450b000 1}
+       {x44885b33 x4450eccd 1}
+       {x44884333 x44512666 1}
+       {x44886000 x44514666 1}
+       {x44888333 x44516333 1}
+       {x4488a4cd x44517666 1}
+       {x4488c800 x44518000 1}
+       {x4488ee66 x4451899a 1}
+       {x44891666 x44519333 1}
+       {x44893800 x44519333 1}
+       {x44895b33 x44519333 1}
+       {x44897ccd x44519333 1}
+       {x4489a000 x44517666 1}
+       {x4489b333 x4451399a 1}
+       {x4489c800 x44510000 1}
+       {x4489e4cd x4450d99a 1}
+       {x448a0333 x4450b99a 1}}}
+     {tx x42480000 x448a4bb5 x444eacb0}
+     {a ro 0 go 0 bo 0 ao 0 bs x40800000 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 tt x41880000}}
+    {cubiccurve Brush11 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x448ae4cd x44508000 1}}}
+     {tx x42480000 x448ae4cd x44508000}
+     {a ro 0 go 0 bo 0 ao 0 bs x40800000 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 tt x41880000}}
+    {cubiccurve Brush10 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x4489f333 x444f099a 1}}}
+     {tx x42480000 x4489f333 x444f099a}
+     {a ro 0 go 0 bo 0 ao 0 bs x40800000 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 tt x41880000}}
+    {cubiccurve Brush9 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x4488bccd x444e599a 1}}}
+     {tx x42480000 x4488bccd x444e599a}
+     {a ro 0 go 0 bo 0 ao 0 bs x40800000 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 tt x41880000}}
+    {cubiccurve Brush8 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x44897800 x44508000 1}}}
+     {tx x42480000 x44897800 x44508000}
+     {a ro 0 go 0 bo 0 ao 0 bs x40800000 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 tt x41880000}}
+    {cubiccurve Brush7 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x448c2000 x444ed000 1}}}
+     {tx x42480000 x448c2000 x444ed000}
+     {a ro 0 go 0 bo 0 ao 0 bs x40800000 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 tt x41880000}}
+    {cubiccurve Brush6 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x448b3333 x444d099a 1}}}
+     {tx x42480000 x448b3333 x444d099a}
+     {a ro 0 go 0 bo 0 ao 0 bs x40800000 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 tt x41880000}}
+    {cubiccurve Brush5 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x448ae4cd x444e8000 1}}}
+     {tx x42480000 x448ae4cd x444e8000}
+     {a ro 0 go 0 bo 0 ao 0 bs x40800000 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 tt x41880000}}
+    {cubiccurve Brush4 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x4489f333 x444d3000 1}}}
+     {tx x42480000 x4489f333 x444d3000}
+     {a ro 0 go 0 bo 0 ao 0 bs x40800000 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 tt x41880000}}
+    {cubiccurve Brush3 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x448f499a x444a4666 1}}}
+     {tx x42480000 x448f499a x444a4666}
+     {a g 0 b 0 ro 0 go 0 bo 0 ao 0 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 tt x41880000}}
+    {cubiccurve Brush2 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x44788000 x43fe0000 1}
+       {x44788000 x44000000 1}
+       {x44798000 x44010000 1}
+       {x447a8000 x44020000 1}
+       {x447c8000 x44040000 1}
+       {x447f8000 x44060000 1}
+       {x4480c000 x44090000 1}
+       {x44824000 x440c0000 1}
+       {x4483c000 x44100000 1}
+       {x44854000 x44130000 1}
+       {x4486c000 x44170000 1}
+       {x4488c000 x441a0000 1}
+       {x448a4000 x441e0000 1}
+       {x448bc000 x44220000 1}
+       {x448d4000 x44250000 1}
+       {x448e4000 x44270000 1}
+       {x448f4000 x44290000 1}
+       {x44904000 x442c0000 1}
+       {x4491c000 x442e0000 1}
+       {x4492c000 x44300000 1}
+       {x44934000 x44310000 1}
+       {x4493c000 x44330000 1}
+       {x4494c000 x44340000 1}
+       {x44954000 x44350000 1}
+       {x4495c000 x44360000 1}
+       {x44964000 x44370000 1}
+       {x4496c000 x44370000 1}
+       {x4496c000 x44380000 1}
+       {x44974000 x44390000 1}
+       {x4497c000 x443a0000 1}
+       {x44984000 x443b0000 1}
+       {x4498c000 x443c0000 1}
+       {x4498c000 x443d0000 1}
+       {x44994000 x443d0000 1}
+       {x44994000 x443e0000 1}
+       {x4499c000 x443e0000 1}
+       {x4499c000 x443f0000 1}
+       {x449a4000 x443f0000 1}
+       {x449a4000 x44400000 1}
+       {x449a4000 x44410000 1}
+       {x449ac000 x44410000 1}
+       {x449ac000 x44420000 1}
+       {x449b4000 x44420000 1}
+       {x449bc000 x44430000 1}
+       {x449bc000 x44440000 1}
+       {x449c4000 x44450000 1}
+       {x449c4000 x44460000 1}
+       {x449cc000 x44470000 1}
+       {x449d4000 x44480000 1}
+       {x449dc000 x44490000 1}
+       {x449dc000 x444a0000 1}
+       {x449e4000 x444a0000 1}
+       {x449ec000 x444a0000 1}
+       {x449ec000 x444b0000 1}
+       {x449f4000 x444b0000 1}
+       {x449f4000 x444c0000 1}
+       {x449fc000 x444c0000 1}
+       {x449fc000 x444d0000 1}}}
+     {tx x42480000 x44937961 x4431b961}
+     {a g 0 b 0 ro 0 go 0 bo 0 ao 0 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 tt x41880000}}
+    {cubiccurve Brush1 512 catmullrom
+     {cc
+      {f 2080}
+      {px x42480000
+       {x4481c000 x444f0000 1}
+       {x44824000 x444e0000 1}
+       {x4482c000 x444c0000 1}
+       {x44834000 x444b0000 1}
+       {x4484c000 x44480000 1}
+       {x4485c000 x44460000 1}
+       {x44874000 x44430000 1}
+       {x44884000 x44400000 1}
+       {x4489c000 x443d0000 1}
+       {x448ac000 x443b0000 1}
+       {x448b4000 x44390000 1}
+       {x448c4000 x44370000 1}
+       {x448d4000 x44350000 1}
+       {x448e4000 x44330000 1}
+       {x448ec000 x44310000 1}
+       {x448fc000 x442f0000 1}
+       {x44904000 x442e0000 1}
+       {x4490c000 x442c0000 1}
+       {x44914000 x442b0000 1}
+       {x4491c000 x442a0000 1}
+       {x44924000 x44290000 1}
+       {x44924000 x44280000 1}
+       {x4492c000 x44270000 1}
+       {x44934000 x44270000 1}
+       {x44934000 x44260000 1}
+       {x4493c000 x44250000 1}
+       {x44944000 x44240000 1}
+       {x4494c000 x44230000 1}
+       {x4494c000 x44220000 1}
+       {x44954000 x44210000 1}
+       {x4495c000 x44210000 1}
+       {x4495c000 x44200000 1}
+       {x44964000 x441f0000 1}
+       {x4496c000 x441e0000 1}
+       {x4496c000 x441d0000 1}
+       {x44974000 x441c0000 1}
+       {x4497c000 x441b0000 1}
+       {x44984000 x441a0000 1}
+       {x44984000 x44190000 1}
+       {x4498c000 x44180000 1}
+       {x44994000 x44180000 1}
+       {x44994000 x44170000 1}
+       {x44994000 x44160000 1}
+       {x4499c000 x44160000 1}
+       {x4499c000 x44150000 1}
+       {x449a4000 x44150000 1}
+       {x449a4000 x44140000 1}
+       {x449ac000 x44140000 1}
+       {x449ac000 x44130000 1}
+       {x449ac000 x44120000 1}
+       {x449b4000 x44120000 1}
+       {x449b4000 x44110000 1}
+       {x449b4000 x44100000 1}
+       {x449bc000 x44100000 1}
+       {x449bc000 x440f0000 1}
+       {x449c4000 x440e0000 1}
+       {x449c4000 x440d0000 1}
+       {x449cc000 x440c0000 1}
+       {x449d4000 x440b0000 1}
+       {x449d4000 x440a0000 1}
+       {x449dc000 x44090000 1}
+       {x449dc000 x44080000 1}
+       {x449e4000 x44080000 1}
+       {x449e4000 x44070000 1}
+       {x449e4000 x44080000 1}
+       {x449dc000 x44090000 1}}}
+     {tx x42480000 x449487c2 x442207c2}
+     {a g 0 b 0 ro 0 go 0 bo 0 ao 0 bu 1 str 1 spx x44800000 spy x44428000 sb 1 ltn x42480000 ltm x42480000 tt x41880000}}}}}}
+ toolbox {brush {
+  { selectAll bs 4 str 1 ssx 1 ssy 1 sf 1 }
+  { createBezier str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createBezierCusped str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createBSpline str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createEllipse str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createRectangle str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createRectangleCusped str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { brush bs 4 str 1 ssx 1 ssy 1 sf 1 sb 1 ltn 50 ltm 50 tt 17 }
+  { eraser src 2 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { clone src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { reveal src 3 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { dodge bs 6.1 src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 ltn 50 ltm 50 tt 21 }
+  { burn src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 tt 22 }
+  { blur src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { sharpen src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { smear src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+} }
+ toolbar_brush_size 4
+ toolbar_brush_hardness 0.200000003
+ toolbar_lifetime_type single
+ toolbar_lifetime_start 50
+ toolbar_lifetime_end 50
+ toolbar_source_transform_scale {1 1}
+ toolbar_source_transform_center {1024 778}
+ color {0.9166705012 0.3333333433 1 1}
+ colorOverlay {0 0 0 0}
+ lifetime_start 50
+ lifetime_end 50
+ motionblur_on true
+ brush_size 4
+ brush_spacing 0.05000000075
+ brush_hardness 0.200000003
+ source_black_outside true
+ name RotoPaint3
+ xpos -1037
+ ypos -440
+}
+FrameHold {
+ firstFrame 50
+ name FrameHold4
+ xpos -1037
+ ypos -278
+}
+STMap {
+ inputs 2
+ uv rgb
+ name STMap1
+ xpos -554
+ ypos -278
+}
+push $N27910000
+Remove {
+ operation keep
+ channels rgb
+ name Remove1
+ xpos -225
+ ypos -886
+}
+Dot {
+ name Dot1
+ xpos 66
+ ypos -883
+}
+Merge2 {
+ inputs 2
+ name Merge4
+ xpos 32
+ ypos -281
+}
+Dot {
+ name Dot2
+ xpos 66
+ ypos -174
+}
+Viewer {
+ frame 95
+ frame_range 1-100
+ viewerProcess "Rec.709 (ACES)"
+ monitorOutNDISenderName "NukeX - test_projection_v002 - Viewer1"
+ name Viewer1
+ xpos 32
+ ypos -41
+}
